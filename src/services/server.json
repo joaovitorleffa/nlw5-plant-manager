@@ -1,14 +1,15 @@
 {
   "plants_water_frequencies": [
-    {"key": "day", "title": "Todos os dias"},
-    {"key": "week", "title": "A cada semana"}
+    { "key": "day", "title": "Todos os dias" },
+    { "key": "week", "title": "A cada semana" }
   ],
 
   "plants_environments": [
-    {"key": "living_room", "title": "Sala"},
-    {"key": "bedroom", "title": "Quarto"},
-    {"key": "kitchen", "title": "Cozinha"},
-    {"key": "bathroom", "title": "Banheiro"}
+    { "key": "living_room", "title": "Sala" },
+    { "key": "bedroom", "title": "Quarto" },
+    { "key": "kitchen", "title": "Cozinha" },
+    { "key": "bathroom", "title": "Banheiro" },
+    { "key": "balcony", "title": "Varanda" }
   ],
 
   "plants": [

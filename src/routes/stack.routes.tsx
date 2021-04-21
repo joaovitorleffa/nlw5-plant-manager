@@ -8,6 +8,7 @@ import colors from "@styles/colors";
 import UserIdentification from "screens/UserIndentification";
 import Confirmation from "screens/Confirmation";
 import Welcome from "screens/Welcome";
+import PlantSelect from "screens/PlantSelect";
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -27,6 +28,7 @@ const MainStack = () => {
       <Screen name="Welcome" component={Welcome} />
       <Screen name="User" component={UserIdentification} />
       <Screen name="Confirmation" component={Confirmation} />
+      <Screen name="PlantSelect" component={PlantSelect} />
     </Navigator>
   );
 };

@@ -1,13 +1,18 @@
+import React from "react";
+import { SafeAreaView, StyleSheet, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
 import Button from "components/Button";
 import Emoji from "components/Emoji";
 import TextRegular from "components/TextRegular";
 import Title from "components/Title";
-import React from "react";
-import { SafeAreaView, StyleSheet, View } from "react-native";
 
-// import { Container } from './styles';
+const Confirmation = () => {
+  const navigation = useNavigation();
+  const handleNavigation = () => {
+    navigation.navigate("PlantSelect");
+  };
 
-const Confirmation: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.contentEmoji}>
@@ -19,7 +24,7 @@ const Confirmation: React.FC = () => {
           <TextRegular text=" Agora vamos começar a cuidar das suas plantinhas com muito cuidado." />
         </View>
       </View>
-      <Button title="Começar" />
+      <Button title="Começar" onPress={handleNavigation} />
     </SafeAreaView>
   );
 };
