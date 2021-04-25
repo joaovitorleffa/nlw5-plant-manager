@@ -118,6 +118,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   footer: {
+    width: "100%",
     marginTop: 40,
   },
   contentEmoji: {

@@ -1,13 +1,15 @@
+import React, { useCallback, useEffect, useState } from "react";
+import { Alert, FlatList, StyleSheet, View } from "react-native";
+import { formatDistance } from "date-fns/esm";
+import { pt } from "date-fns/locale";
+
 import colors from "@styles/colors";
 import Header from "components/Header";
+import Loading from "components/Loading";
 import PlantCardSecondary from "components/PlantCardSecondary";
 import Title from "components/Title";
 import WateringCard from "components/WateringCard";
-import { formatDistance } from "date-fns/esm";
-import { pt } from "date-fns/locale";
-import { loadPlant, PlantProps } from "libs/storage";
-import React, { useCallback, useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { loadPlant, PlantProps, removePlant } from "libs/storage";
 
 const MyPlants = () => {
   const [myPlants, setMyPlants] = useState<PlantProps[]>([]);
@@ -28,18 +30,51 @@ const MyPlants = () => {
     );
 
     setMyPlants(plants);
+    setIsLoading(false);
+  }, []);
+
+  const handleRemove = useCallback(async (plant: PlantProps) => {
+    Alert.alert("Remover", `Deseja remover a ${plant.name}`, [
+      {
+        text: "Não 🤗",
+        style: "cancel",
+      },
+      {
+        text: "Sim 😥",
+        onPress: async () => {
+          try {
+            await removePlant(plant.id);
+
+            setMyPlants((oldValue) =>
+              oldValue.filter((item) => item.id !== plant.id)
+            );
+          } catch {
+            Alert.alert(
+              "Que pena!",
+              "Não foi possível remover a sua planta! 😥"
+            );
+          }
+        },
+      },
+    ]);
   }, []);
 
   const keyExtractor = useCallback((item: PlantProps) => String(item.id), []);
 
   const renderItem = useCallback(
-    ({ item }) => <PlantCardSecondary data={item} />,
+    ({ item }: { item: PlantProps }) => (
+      <PlantCardSecondary data={item} handleRemove={() => handleRemove(item)} />
+    ),
     []
   );
 
   useEffect(() => {
     loadStorageData();
   }, []);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <View style={styles.container}>

@@ -47,7 +47,9 @@ const Confirmation = () => {
           <TextRegular text={subtitle} />
         </View>
       </View>
-      <Button title={buttonTitle} onPress={handleNavigation} />
+      <View style={styles.contentButton}>
+        <Button title={buttonTitle} onPress={handleNavigation} />
+      </View>
     </SafeAreaView>
   );
 };
@@ -68,6 +70,10 @@ const styles = StyleSheet.create({
   },
   text: {
     marginTop: 16,
+  },
+  contentButton: {
+    width: "100%",
+    paddingHorizontal: 12,
   },
 });
 
