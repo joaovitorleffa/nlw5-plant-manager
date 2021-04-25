@@ -2,37 +2,26 @@ import React, { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
-  Platform,
   StyleSheet,
   Text,
   View,
 } from "react-native";
+import { useNavigation } from "@react-navigation/core";
+import { getStatusBarHeight } from "react-native-iphone-x-helper";
+
+import api from "services/api";
+import { PlantProps } from "libs/storage";
 
 import colors from "@styles/colors";
-import Header from "components/Header";
-import { getStatusBarHeight } from "react-native-iphone-x-helper";
 import fonts from "@styles/fonts";
+import Header from "components/Header";
 import EnvironmentButton from "components/EnvironmentButton";
-import api from "services/api";
 import PlantCardPrimary from "components/PlantCardPrimary";
 import Loading from "components/Loading";
 
 interface Environment {
   key: string;
   title: string;
-}
-
-interface PlantProps {
-  id: string;
-  name: string;
-  about: string;
-  water_tips: string;
-  photo: string;
-  environments: string[];
-  frequency: {
-    times: number;
-    repeat_every: string;
-  };
 }
 
 const PlantSelect = () => {
@@ -47,6 +36,8 @@ const PlantSelect = () => {
   const [scrolling, setScrolling] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
+  const navigation = useNavigation();
+
   const handleSelectEnvironment = (environment: string) => {
     setEnvironmentSelected(environment);
     if (environment === "all") {
@@ -59,6 +50,10 @@ const PlantSelect = () => {
 
     setFilteredPlants(filtered);
   };
+
+  const handlePlantSelect = useCallback((plant: PlantProps) => {
+    navigation.navigate("PlantSave", { plant });
+  }, []);
 
   const handleRefresh = useCallback(() => {
     if (environmentSelected !== "all") return;
@@ -146,7 +141,11 @@ const PlantSelect = () => {
   }, []);
 
   const renderItemPlants = ({ item }: { item: PlantProps }) => {
-    return !refreshing ? <PlantCardPrimary data={item} /> : <Loading />;
+    return !refreshing ? (
+      <PlantCardPrimary data={item} onPress={() => handlePlantSelect(item)} />
+    ) : (
+      <Loading />
+    );
   };
 
   const handleScroll = useCallback(() => {

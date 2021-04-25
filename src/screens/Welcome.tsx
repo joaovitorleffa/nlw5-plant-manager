@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   SafeAreaView,
   View,
@@ -14,6 +14,7 @@ import TextRegular from "components/TextRegular";
 
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Welcome = () => {
   const navigation = useNavigation();
@@ -21,6 +22,15 @@ const Welcome = () => {
   const handleNavigation = () => {
     navigation.navigate("User");
   };
+  
+  const loadStorageUserName = async () => {
+    const user = await AsyncStorage.getItem("@plantmanager:user");
+    user && navigation.navigate("PlantSelect");
+  };
+
+  useEffect(() => {
+    loadStorageUserName();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
